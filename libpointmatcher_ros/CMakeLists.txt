@@ -7,7 +7,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #  Release        : w/o debug symbols, w/ optimization
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-set(ROS_BUILD_TYPE RelWithDebInfo)
+set(ROS_BUILD_TYPE Release)
 
 rosbuild_init()
 
@@ -35,8 +35,10 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 find_package(roscpp)
 
-find_package(Eigen REQUIRED)
-include_directories(${Eigen_INCLUDE_DIRS})
+include($ENV{ROS_ROOT}/core/rosbuild/FindPkgConfig.cmake)
+
+pkg_check_modules(EIGEN REQUIRED eigen3)
+include_directories(${EIGEN_INCLUDE_DIRS})
 
 add_definitions(-DHAVE_YAML_CPP)
 
